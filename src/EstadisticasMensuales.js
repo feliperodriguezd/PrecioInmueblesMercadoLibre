@@ -91,7 +91,7 @@ function MesAnterior() {
     if (EsElPrimerMesDelAnio(mes)) {
         return 12;
     }
-    return mes;
+    return mes - 1;
 }
 
 function EsElPrimerMesDelAnio(mes) {
