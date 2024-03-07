@@ -12,8 +12,8 @@ async function CalculoDePrecioPropiedades(client) {
     let PrecioSuma = await ObtenerSumaDePrecioPropiedades(codigosCategoria[i]);
     let cantidadDeCasasVistas = 1050;
     let PrecioPromedio = PrecioSuma / cantidadDeCasasVistas;
-    let PrecioEnMiles = Math.round(PrecioPromedio / 1000);
     let PrecioSinMiles = Math.round(PrecioPromedio % 1000);
+    let PrecioEnMiles = Math.round((PrecioPromedio - PrecioSinMiles) / 1000);
     PreciosPromediosDivididos[i * 2] = PrecioEnMiles;
     PreciosPromediosDivididos[(i * 2) + 1] = PrecioSinMiles;
     Precios[i] = Math.round(PrecioPromedio);
@@ -72,7 +72,7 @@ async function ObtenerSumaDePrecioPropiedades(codigoCategoria) {
         PrecioPromedio += precio;
       } else {
         let conversionDolarPeso = ValorPesoDolar(data)
-        PrecioPromedio += (precio/conversionDolarPeso)
+        PrecioPromedio += (precio / conversionDolarPeso)
       }
     }
     offset += 50;
