@@ -64,7 +64,7 @@ function EsElUltimoMesDelAnio(mes) {
 
 function CambioElMes() {
     let fecha = new Date();
-    return fecha.getDate() == 8;
+    return fecha.getDate() == 1;
 }
 
 function MesAnterior() {
