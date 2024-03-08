@@ -1,10 +1,7 @@
-import { telegramToken, telegramChatId } from "./tokens";
-
-import { EnviarMensaje, VerificarSiElMensajeSeEnvio } from "./FuncionesAuxiliares";
+import { ObtenerDia, ObtenerMes, ObtenerAnio, EnviarMensaje, VerificarSiElMensajeSeEnvio } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     await client.connect();
-    const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
     if (CambioElMes()) {
         const datosCrudos = await BuscarEnLaBaseDeDatosLasFilasCorrectas(client);
@@ -23,27 +20,12 @@ async function CalculoDePrecioPromedioMensual(client) {
         PreciosPromediosDivididos[2] = PrecioEnMilesApartamento;
         PreciosPromediosDivididos[3] = PrecioSinMilesApartamento;
 
-        let mensajeTelegram = MensajeTelegram(PreciosPromediosDivididos);
-
-        const respuestaTelegram = await EnviarMensaje(telegramUrl, telegramChatId, mensajeTelegram);
-        await VerificarSiElMensajeSeEnvio(respuestaTelegram);
+        await InsertarEnDB(client, promedioMensualCasas, promedioMensualApartamentos);
     }
 }
 
-function MensajeTelegram(PreciosPromediosDivididos) {
-    let telegramMessage = `El precio promedio del mes anterior es:\nCasa: U$S ${PreciosPromediosDivididos[0]}.`;
-    if (PreciosPromediosDivididos[1] < 100) {
-        telegramMessage = telegramMessage + `0${PreciosPromediosDivididos[1]}\nApartamento: U$S ${PreciosPromediosDivididos[2]}.`;
-    } else {
-        telegramMessage = telegramMessage + `${PreciosPromediosDivididos[1]}\nApartamento: U$S ${PreciosPromediosDivididos[2]}.`;
-    }
-
-    if (PreciosPromediosDivididos[2] < 100) {
-        telegramMessage = telegramMessage + `0${PreciosPromediosDivididos[3]}`;
-    } else {
-        telegramMessage = telegramMessage + `${PreciosPromediosDivididos[3]}`;
-    }
-    return telegramMessage;
+async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
+    await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
 }
 
 function CalcularPromedio(datos, tipoPropiedad) {
@@ -82,7 +64,7 @@ function EsElUltimoMesDelAnio(mes) {
 
 function CambioElMes() {
     let fecha = new Date();
-    return fecha.getDate() == 1;
+    return fecha.getDate() == 8;
 }
 
 function MesAnterior() {
