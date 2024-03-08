@@ -1,7 +1,7 @@
 import { Client } from '@neondatabase/serverless';
 
 import { CalculoDePrecioPropiedades } from './Preciototal';
-import { CalculoDePrecioPromedioMensual } from './EstadisticasMensuales';
+import { CalculoDePrecioPromedioMensual } from './PromedioMensual';
 
 export default {
   async scheduled(event, env, ctx) {
