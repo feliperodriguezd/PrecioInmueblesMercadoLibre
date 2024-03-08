@@ -1,4 +1,4 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio, EnviarMensaje, VerificarSiElMensajeSeEnvio } from "./FuncionesAuxiliares";
+import { ObtenerDia, ObtenerMes, ObtenerAnio } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     if (CambioElMes()) {
