@@ -2,7 +2,6 @@ import { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON
 import { telegramToken, telegramChatId } from "./tokens";
 
 async function CalculoDePrecioPropiedades(client) {
-  await client.connect();
   const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
   let codigosCategoria = ["MLU1468", "MLU1474"];

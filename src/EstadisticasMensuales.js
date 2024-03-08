@@ -1,8 +1,6 @@
 import { ObtenerDia, ObtenerMes, ObtenerAnio, EnviarMensaje, VerificarSiElMensajeSeEnvio } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
-    await client.connect();
-
     if (CambioElMes()) {
         const datosCrudos = await BuscarEnLaBaseDeDatosLasFilasCorrectas(client);
         let datos = datosCrudos['rows'];
