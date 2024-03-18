@@ -44,7 +44,7 @@ function CalcularPromedio(datos, tipoPropiedad) {
 async function BuscarEnLaBaseDeDatosLasFilasCorrectas(client) {
     let mesAnterior = MesAnterior();
     let anioDelMesAnterior = DevolverAnioDelMes(MesAnterior);
-    return await client.query(`select* FROM datossemanales where fecha LIKE '%/${mesAnterior}/${anioDelMesAnterior}%'`);
+    return await client.query(`select distinct * FROM datossemanales where fecha LIKE '%/${mesAnterior}/${anioDelMesAnterior}%'`);
 }
 
 function DevolverAnioDelMes(mes) {
