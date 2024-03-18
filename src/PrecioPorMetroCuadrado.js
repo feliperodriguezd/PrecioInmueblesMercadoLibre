@@ -1,14 +1,15 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista } from "./FuncionesAuxiliares";
+import { ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista } from "./FuncionesAuxiliares";
 
 import { telegramToken, telegramChatId } from "./tokens";
 
-async function CalculoDePrecioPropiedadesPorMetroCuadrado(client) {
+async function CalculoDePrecioPropiedadesPorMetroCuadrado() {
     const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
     let codigosCategoria = ["MLU1468", "MLU1474"];
     let PreciosPromediosDivididos = [];
     let Precios = []
-
+    let PrecioSuma;
+    
     for (let i = 0; i < codigosCategoria.length; i++) {
         let PrecioSuma = await ObtenerSumaDePrecioPorMetroCuadradoDePropiedades(codigosCategoria[i]);
         let cantidadDePropiedadesVistas = 1050;
@@ -19,6 +20,7 @@ async function CalculoDePrecioPropiedadesPorMetroCuadrado(client) {
         PreciosPromediosDivididos[(i * 2) + 1] = PrecioSinMiles;
         Precios[i] = Math.round(PrecioPromedio);
     }
+    
 
     let mensajeTelegram = MensajeTelegramMetroCuadrado(PreciosPromediosDivididos);
 
@@ -80,7 +82,7 @@ function EsElAtributoDeMetros(atributoPropiedad) {
 
 async function ObtenerSumaDePrecioPorMetroCuadradoDePropiedades(codigoCategoria) {
     let offset = 0;
-    let url = `https://api.mercadolibre.com/sites/MLU/search?category=${codigoCategoria}&search_type=scan&offset=${offset}`;
+    let url = `https://api.mercadolibre.com/sites/MLU/search?category=MLU1468&search_type=scan&offset=${offset}`;
     let response = await ObtenerDatosDeURL(url);
     let data = await PasarDatosAJSON(response);
     let propiedades = await DatosDePropiedades(data);
@@ -88,7 +90,7 @@ async function ObtenerSumaDePrecioPorMetroCuadradoDePropiedades(codigoCategoria)
     let PrecioPromedio = 0;
 
     while (SeLlegoAlLimiteDeOffset(offset)) {
-        url = `https://api.mercadolibre.com/sites/MLU/search?category=${codigoCategoria}&search_type=scan&offset=${offset}`;
+        url = `https://api.mercadolibre.com/sites/MLU/search?category=MLU1468&search_type=scan&offset=${offset}`;
         response = await ObtenerDatosDeURL(url);
 
         data = await PasarDatosAJSON(response);
@@ -99,7 +101,7 @@ async function ObtenerSumaDePrecioPorMetroCuadradoDePropiedades(codigoCategoria)
             let propiedad = propiedades[i];
             let metrosDePropiedad = obtenerMetros(propiedad);
             let precioDePropiedad = obtenerPrecio(propiedad);
-            PrecioPromedio += PrecioPropiedadMetroCuadrado(precioDePropiedad, metrosDePropiedad);
+            PrecioPromedio += Math.round(PrecioPropiedadMetroCuadrado(precioDePropiedad, metrosDePropiedad));
         }
         offset += 50;
     }
