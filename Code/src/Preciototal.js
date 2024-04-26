@@ -40,7 +40,7 @@ function MensajeTelegram(PreciosPromediosDivididos) {
     telegramMessage = telegramMessage + `${PreciosPromediosDivididos[1]}\nApartamento: U$S ${PreciosPromediosDivididos[2]}.`;
   }
 
-  if (PreciosPromediosDivididos[2] < 100) {
+  if (PreciosPromediosDivididos[3] < 100) {
     telegramMessage = telegramMessage + `0${PreciosPromediosDivididos[3]}`;
   } else {
     telegramMessage = telegramMessage + `${PreciosPromediosDivididos[3]}`;

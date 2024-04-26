@@ -172,4 +172,4 @@ dist
 .wrangler/
 
 # Archivo con tokens
-src/tokens.js
+Code/src/tokens.js
