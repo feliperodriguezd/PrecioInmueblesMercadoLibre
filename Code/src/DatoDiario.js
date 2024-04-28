@@ -7,6 +7,7 @@ async function AgregarADByEnviarMensaje(client) {
     let precioCasa = PrecioPromedioCasa(datos)
     let precioApartamento = PrecioPromedioApartamento(datos)
     await InsertarEnDB(client, precioCasa, precioApartamento)
+    await EliminarDeLaDB(client)
 
     const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
 
@@ -47,6 +48,10 @@ function PrecioPromedioApartamento(datos) {
 
 async function DatosDelaDB(client) {
     return await client.query(`select distinct * FROM datosdiariomultiple`);
+}
+
+async function EliminarDeLaDB(client) {
+    return await client.query(`DELETE FROM datosdiariomultiple`);
 }
 
 async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
