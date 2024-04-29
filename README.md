@@ -1,8 +1,8 @@
-# PrecioInmueblesMercadoLibre
+# Precio Inmuebles MercadoLibre
 
 ## Code
 
-La aplicación toma 1050 propiedades de la API de MercadoLibre (para casas y apartamentos), calcula el precio promedio, guarda la información en una base de datos y envía un mensaje por telegram usando un bot.
+La aplicación toma 1050 propiedades de la API de MercadoLibre por minuto (tanto para casas como apartamentos), calcula el precio promedio y guarda la información en una base de datos. Una vez al día recoge esa información guardada, toma el promedio y lo guarda en la DB a la vez que envía un mensaje por telegram usando un bot.
 
 Se utilizan solo 1050 ya que ese es el límite de acceso de la API de MercadoLibre.
 
