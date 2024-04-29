@@ -49,7 +49,7 @@ function PrecioPromedioApartamento(datos) {
 }
 
 async function DatosDelaDB(client) {
-    return await client.query(`select * FROM datosdiariomultiple`);
+    return await client.query(`select distinct * FROM datosdiariomultiple`);
 }
 
 async function EliminarDeLaDB(client) {
