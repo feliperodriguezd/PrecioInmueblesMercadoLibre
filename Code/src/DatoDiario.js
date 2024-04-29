@@ -3,10 +3,12 @@ import { telegramToken, telegramChatId } from "./tokens";
 
 
 async function AgregarADByEnviarMensaje(client) {
-    let datos = DatosDelaDB(client)
+    const datosCrudos = await DatosDelaDB(client);
+    let datos = datosCrudos['rows'];
     let precioCasa = PrecioPromedioCasa(datos)
     let precioApartamento = PrecioPromedioApartamento(datos)
-    await InsertarEnDB(client, precioCasa, precioApartamento)
+
+    await InsertarEnDB(client, precioCasa, parseInt(precioApartamento))
     await EliminarDeLaDB(client)
 
     const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage`;
@@ -47,7 +49,7 @@ function PrecioPromedioApartamento(datos) {
 }
 
 async function DatosDelaDB(client) {
-    return await client.query(`select distinct * FROM datosdiariomultiple`);
+    return await client.query(`select * FROM datosdiariomultiple`);
 }
 
 async function EliminarDeLaDB(client) {
@@ -55,7 +57,7 @@ async function EliminarDeLaDB(client) {
 }
 
 async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
-    await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+    await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()-1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
 }
 
 function MensajeTelegram(PreciosPromediosDivididos) {

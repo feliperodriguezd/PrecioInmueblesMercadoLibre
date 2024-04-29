@@ -12,7 +12,7 @@ export default {
 
     await CalculoDePrecioPromedioMensual(client);
 
-    if (fecha.getHours() == 23 && fecha.getMinutes() == 50) {
+    if (fecha.getHours() == 2 && fecha.getMinutes() == 55) {
       await AgregarADByEnviarMensaje(client)
     }
 
