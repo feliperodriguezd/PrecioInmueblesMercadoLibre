@@ -1,4 +1,4 @@
-import { CambioElMes, CambioElMes } from "./FuncionesAuxiliares";
+import { CambioElMes, InsertarEnDB } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     if (CambioElMes()) {
