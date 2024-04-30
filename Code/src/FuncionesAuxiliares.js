@@ -72,4 +72,22 @@ function CantidadDePropiedadesEnLista(lista) {
     return lista.length;
 }
 
-export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista }
+function CambioElMes() {
+    let fecha = new Date();
+    return fecha.getDate() == 1;
+}
+
+function CantidadDeDiasDelMesAnteriror(){
+    return new Date(ObtenerAnio(), ObtenerMes()-1, 0).getDate();
+}
+
+async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
+    if (CambioElMes()) {
+        let dias = CantidadDeDiasDelMesAnteriror()
+        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${dias}/${ObtenerMes() - 1}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+    } else {
+        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia() - 1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+    }
+}
+
+export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista, CambioElMes, InsertarEnDB }

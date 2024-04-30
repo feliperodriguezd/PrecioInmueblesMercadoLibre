@@ -1,4 +1,4 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio, EnviarMensaje, VerificarSiElMensajeSeEnvio } from "./FuncionesAuxiliares";
+import { EnviarMensaje, VerificarSiElMensajeSeEnvio, InsertarEnDB } from "./FuncionesAuxiliares";
 import { telegramToken, telegramChatId } from "./tokens";
 
 
@@ -54,10 +54,6 @@ async function DatosDelaDB(client) {
 
 async function EliminarDeLaDB(client) {
     return await client.query(`DELETE FROM datosdiariomultiple`);
-}
-
-async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
-    await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()-1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
 }
 
 function MensajeTelegram(PreciosPromediosDivididos) {

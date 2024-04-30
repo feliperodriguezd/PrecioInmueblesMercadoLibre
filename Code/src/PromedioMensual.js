@@ -1,4 +1,4 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio } from "./FuncionesAuxiliares";
+import { CambioElMes, CambioElMes } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     if (CambioElMes()) {
@@ -20,10 +20,6 @@ async function CalculoDePrecioPromedioMensual(client) {
 
         await InsertarEnDB(client, promedioMensualCasas, promedioMensualApartamentos);
     }
-}
-
-async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
-    await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
 }
 
 function CalcularPromedio(datos, tipoPropiedad) {
@@ -58,11 +54,6 @@ function DevolverAnioDelMes(mes) {
 
 function EsElUltimoMesDelAnio(mes) {
     return mes == 12;
-}
-
-function CambioElMes() {
-    let fecha = new Date();
-    return fecha.getDate() == 1;
 }
 
 function MesAnterior() {
