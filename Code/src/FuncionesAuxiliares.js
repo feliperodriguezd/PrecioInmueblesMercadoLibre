@@ -81,4 +81,9 @@ function CambioElMes() {
     return fecha.getDate() == 1;
 }
 
-export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista, CantidadDeDiasDelMesAnteriror, CambioElMes }
+function CambioElMesParaCloudflare() {
+    let fecha = new Date();
+    return fecha.getDate() == 2;
+}
+
+export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista, CantidadDeDiasDelMesAnteriror, CambioElMes, CambioElMesParaCloudflare }
