@@ -1,4 +1,4 @@
-import { CambioElMes, InsertarEnDB } from "./FuncionesAuxiliares";
+import { ObtenerDia, ObtenerMes, ObtenerAnio, CantidadDeDiasDelMesAnteriror, CambioElMes } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     if (CambioElMes()) {
@@ -19,6 +19,15 @@ async function CalculoDePrecioPromedioMensual(client) {
         PreciosPromediosDivididos[3] = PrecioSinMilesApartamento;
 
         await InsertarEnDB(client, promedioMensualCasas, promedioMensualApartamentos);
+    }
+}
+
+async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
+    if (CambioElMes()) {
+        let dias = CantidadDeDiasDelMesAnteriror()
+        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${dias}/${ObtenerMes() - 1}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+    } else {
+        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia() - 1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
     }
 }
 
