@@ -25,9 +25,9 @@ async function CalculoDePrecioPromedioMensual(client) {
 async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
     if (CambioElMes()) {
         let dias = CantidadDeDiasDelMesAnteriror()
-        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${dias}/${ObtenerMes() - 1}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+        await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${dias}/${ObtenerMes() - 1}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
     } else {
-        await client.query(`INSERT INTO DatosSemanales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia() - 1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+        await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia() - 1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
     }
 }
 
