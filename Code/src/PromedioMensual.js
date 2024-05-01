@@ -1,4 +1,4 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio, CantidadDeDiasDelMesAnteriror, CambioElMes } from "./FuncionesAuxiliares";
+import { ObtenerDia, ObtenerMes, ObtenerAnio, CambioElMesParaCloudflare } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
     if (CambioElMesParaCloudflare()) {
