@@ -72,4 +72,18 @@ function CantidadDePropiedadesEnLista(lista) {
     return lista.length;
 }
 
-export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista }
+function CantidadDeDiasDelMesAnteriror(){
+    return new Date(ObtenerAnio(), ObtenerMes()-1, 0).getDate();
+}
+
+function CambioElMes() {
+    let fecha = new Date();
+    return fecha.getDate() == 1;
+}
+
+function CambioElMesParaCloudflare() {
+    let fecha = new Date();
+    return fecha.getDate() == 2;
+}
+
+export { ObtenerDia, ObtenerMes, ObtenerAnio, ObtenerDatosDeURL, PasarDatosAJSON, SeLlegoAlLimiteDeOffset, EnviarMensaje, VerificarSiElMensajeSeEnvio, DatosDePropiedades, CantidadDePropiedadesEnLista, CantidadDeDiasDelMesAnteriror, CambioElMes, CambioElMesParaCloudflare }

@@ -10,9 +10,8 @@ export default {
     const client = new Client(env.DATABASE_URL);
     await client.connect();
 
-    await CalculoDePrecioPromedioMensual(client);
-
     if (fecha.getHours() == 2 && fecha.getMinutes() == 55) {
+      await CalculoDePrecioPromedioMensual(client);
       await AgregarADByEnviarMensaje(client)
     }
 

@@ -1,7 +1,7 @@
-import { ObtenerDia, ObtenerMes, ObtenerAnio } from "./FuncionesAuxiliares";
+import { ObtenerDia, ObtenerMes, ObtenerAnio, CambioElMesParaCloudflare } from "./FuncionesAuxiliares";
 
 async function CalculoDePrecioPromedioMensual(client) {
-    if (CambioElMes()) {
+    if (CambioElMesParaCloudflare()) {
         const datosCrudos = await BuscarEnLaBaseDeDatosLasFilasCorrectas(client);
         let datos = datosCrudos['rows'];
         let promedioMensualCasas = Math.round(CalcularPromedio(datos, "casa"));
@@ -23,7 +23,7 @@ async function CalculoDePrecioPromedioMensual(client) {
 }
 
 async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
-    await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia()}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
+    await client.query(`INSERT INTO datosmensuales (Fecha, preciocasa, precioapartamento) VALUES ('${ObtenerDia() - 1}/${ObtenerMes()}/${ObtenerAnio()}' , ${PrecioCasa}, ${PrecioApartamento})`);
 }
 
 function CalcularPromedio(datos, tipoPropiedad) {
@@ -58,11 +58,6 @@ function DevolverAnioDelMes(mes) {
 
 function EsElUltimoMesDelAnio(mes) {
     return mes == 12;
-}
-
-function CambioElMes() {
-    let fecha = new Date();
-    return fecha.getDate() == 1;
 }
 
 function MesAnterior() {

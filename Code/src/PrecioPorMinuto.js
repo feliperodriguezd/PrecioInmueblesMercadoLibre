@@ -9,10 +9,10 @@ async function CalculoDePrecioPropiedades(client) {
     let PrecioPromedio = PrecioSuma / cantidadDeCasasVistas;
     Precios[i] = Math.round(PrecioPromedio);
   }
-  await InsertarEnDB(client, Precios[0], Precios[1]);
+  await InsertarEnDatosDiarioMultiple(client, Precios[0], Precios[1]);
 }
 
-async function InsertarEnDB(client, PrecioCasa, PrecioApartamento) {
+async function InsertarEnDatosDiarioMultiple(client, PrecioCasa, PrecioApartamento) {
   await client.query(`INSERT INTO datosdiariomultiple (preciocasa, precioapartamento) VALUES (${PrecioCasa}, ${PrecioApartamento})`);
 }
 
