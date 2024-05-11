@@ -3,39 +3,26 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import os
 
-#Toma datos del Excel
-absolute_path = os.path.dirname(__file__)
-relative_path = "Datos.xlsx"
-full_path = os.path.join(absolute_path, relative_path)
-
-all = pd.read_excel(full_path)
-all2 = pd.DataFrame(all)
-
-#Pasa los datos a lista
-date = all2["fecha"].tolist()
-housePrice = all2["preciocasa"].tolist()
-apartmentPrice = all2["precioapartamento"].tolist()
-housePriceMonthly = all2["preciocasamensual"].tolist()
-apartmentPriceMonthly = all2["precioapartamentomensual"].tolist()
+def ThereIsData(data):
+    return data != 'nan'
 
 #Se queda solo con los datos que precisa
 def GetCorrectMonthDataForPrice(listPrices):
     returnList = []
     for x in listPrices:
-        if str(x) != 'nan':
+        listItemToString = str(x)
+        if ThereIsData(listItemToString):
             returnList.append(x)
     return returnList
 
-def GetCorrectMonthDataForDate():
+
+def GetCorrectMonthDataForDate(dates, listWithEmptySpots, lengthofList):
     returnList = []
-    for x in range(len(housePriceMonthly)):
-        if str(housePriceMonthly[x]) != 'nan':
-            returnList.append(date[x])
+    for x in range(lengthofList):
+        if ThereIsData(str(listWithEmptySpots[x])):
+            returnList.append(dates[x])
     return returnList
 
-dateMonthly = GetCorrectMonthDataForDate()
-housePriceMonthly = GetCorrectMonthDataForPrice(housePriceMonthly)
-apartmentPriceMonthly = GetCorrectMonthDataForPrice(apartmentPriceMonthly)
 
 def CreateGraphic(dataDate, dataHouse, dataApartment):
     fig, ax = plt.subplots()
@@ -53,5 +40,30 @@ def CreateGraphic(dataDate, dataHouse, dataApartment):
     plt.title("Precio promedio de casa y apartamentos en MercadoLibre")
     plt.show()
 
-CreateGraphic(date, housePrice, apartmentPrice)
-CreateGraphic(dateMonthly, housePriceMonthly, apartmentPriceMonthly)
+def GetPathOfExcelFile():
+    absolutePath = os.path.dirname(__file__)
+    relativePath = "Datos.xlsx"
+    fullPath = os.path.join(absolutePath, relativePath)
+    return fullPath
+
+
+def TakeDataAndCreateGraph(excel):
+    dates = excel["fecha"].tolist()
+    housePrice = excel["preciocasa"].tolist()
+    apartmentPrice = excel["precioapartamento"].tolist()
+    housePriceMonthly = excel["preciocasamensual"].tolist()
+    apartmentPriceMonthly = excel["precioapartamentomensual"].tolist()
+
+    dateMonthly = GetCorrectMonthDataForDate(dates, housePriceMonthly, len(dates))
+    housePriceMonthly = GetCorrectMonthDataForPrice(housePriceMonthly)
+    apartmentPriceMonthly = GetCorrectMonthDataForPrice(apartmentPriceMonthly)
+
+    CreateGraphic(dates, housePrice, apartmentPrice)
+    CreateGraphic(dateMonthly, housePriceMonthly, apartmentPriceMonthly)
+
+if __name__ == '__main__':
+    path = GetPathOfExcelFile()
+    allExcelData = pd.read_excel(path)
+    excelDataToDataFrame = pd.DataFrame(allExcelData)
+    TakeDataAndCreateGraph(excelDataToDataFrame)
+    
