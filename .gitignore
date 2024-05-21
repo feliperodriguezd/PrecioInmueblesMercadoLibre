@@ -172,4 +172,5 @@ dist
 .wrangler/
 
 # Archivo con tokens
-Code/src/tokens.js
+tokens.js
+ConnectionString.py
