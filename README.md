@@ -12,4 +12,4 @@ Base para el proyecto: https://x.com/ferminrp/status/1761413996727685442?s=20
 
 ## Data
 
-Se cargaron todos los datos obtenidos hasta el momento en un Excel (.xlsx) y se agrego un código en Python que toma esos datos y genera una grafica.
+La clase UpdateData baja los datos de la base de datos y los agrega al Excel Datos.xlsx. Luego los datos obtenidos en el Excel se gráfica, de esto se encarga la clase GraphicGenerator.
