@@ -64,6 +64,6 @@ def GetData():
     EndConnection(cur, connection)
     return data
 
-
-data = GetData()
-OpenAndEdit(data)
+if __name__ == '__main__':
+    data = GetData()
+    OpenAndEdit(data)
