@@ -4,6 +4,11 @@ import os
 
 import ConnectionString
 
+def GetRelativePath(relativePath):
+    absolutePath = os.path.dirname(__file__)
+    fullPath = os.path.join(absolutePath, relativePath)
+    return fullPath
+
 def OpenExcel():
     try:
         excel = openpyxl.load_workbook(GetRelativePath('Datos.xlsx'))
@@ -20,7 +25,7 @@ def Edit(sheet, data):
         row = numbre + 2
         for num in range(0, 3):
             cell = cells[num] + str(row)
-            specificData = cells[num] + str(row)
+            specificData = data[numbre][num]
             EditCell(sheet, cell, specificData)
 
 def OpenAndEdit(data):
@@ -39,6 +44,9 @@ def EndConnection(cur, connection):
 def GetNextLine(cur):
     return cur.fetchone()
 
+def AddToList(list, data):
+    list.append(data)
+
 def GetData():
     data = []
     connection = psycopg2.connect(ConnectionString.connection_string)
@@ -48,18 +56,14 @@ def GetData():
     row = GetNextLine(cur)
     while row != None:
         rowData = []
-        rowData.append(row[0])
-        rowData.append(row[1])
-        rowData.append(int(row[2]))
-        data.append(rowData)
+        AddToList(rowData, row[0])
+        AddToList(rowData, row[1])
+        AddToList(rowData, int(row[2]))
+        AddToList(data, rowData)
         row = GetNextLine(cur)
     EndConnection(cur, connection)
     return data
 
-def GetRelativePath(relativePath):
-    absolutePath = os.path.dirname(__file__)
-    fullPath = os.path.join(absolutePath, relativePath)
-    return fullPath
 
 data = GetData()
 OpenAndEdit(data)
