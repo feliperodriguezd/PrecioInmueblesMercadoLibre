@@ -26,14 +26,14 @@ async function ObtenerSumaDePrecioPropiedades(codigoCategoria) {
     let data = await PasarDatosAJSON(response);
     let propiedades = await DatosDePropiedades(data);
     let cantidadPropieadades = CantidadDePropiedadesEnLista(propiedades);
-    precioSuma += CalcularPrecio(cantidadPropieadades, propiedades)
+    precioSuma += CalcularPrecio(cantidadPropieadades, propiedades, data)
     offset += 50;
   }
     
   return precioSuma;
 }
 
-function CalcularPrecio(cantidadPropieadades, propiedades){
+function CalcularPrecio(cantidadPropieadades, propiedades, data){
   let precioSuma = 0
   for (let i = 0; i < cantidadPropieadades; i++) {
     let precio = propiedades[i].price;
