@@ -18,33 +18,37 @@ async function InsertarEnDatosDiarioMultiple(client, PrecioCasa, PrecioApartamen
 
 async function ObtenerSumaDePrecioPropiedades(codigoCategoria) {
   let offset = 0;
-  let url = `https://api.mercadolibre.com/sites/MLU/search?category=${codigoCategoria}&search_type=scan&offset=${offset}`;
-  let response = await ObtenerDatosDeURL(url);
-  let data = await PasarDatosAJSON(response);
+  let precioSuma = 0;
 
-  let propiedades = await DatosDePropiedades(data);
-  let cantidadPropieadades = CantidadDePropiedadesEnLista(propiedades);
-  let PrecioPromedio = 0;
   while (SeLlegoAlLimiteDeOffset(offset)) {
-    url = `https://api.mercadolibre.com/sites/MLU/search?category=${codigoCategoria}&search_type=scan&offset=${offset}`;
-    response = await ObtenerDatosDeURL(url);
-
-    data = await PasarDatosAJSON(response);
-    propiedades = await DatosDePropiedades(data);
-    cantidadPropieadades = CantidadDePropiedadesEnLista(propiedades);
-
-    for (let i = 0; i < cantidadPropieadades; i++) {
-      let precio = propiedades[i].price;
-      if (EstaPublicadoEnDolares(propiedades[i].currency_id)) {
-        PrecioPromedio += precio;
-      } else {
-        let conversionDolarPeso = ValorPesoDolar(data)
-        PrecioPromedio += (precio / conversionDolarPeso)
-      }
-    }
+    let url = `https://api.mercadolibre.com/sites/MLU/search?category=${codigoCategoria}&search_type=scan&offset=${offset}`;
+    let response = await ObtenerDatosDeURL(url);
+    let data = await PasarDatosAJSON(response);
+    let propiedades = await DatosDePropiedades(data);
+    let cantidadPropieadades = CantidadDePropiedadesEnLista(propiedades);
+    precioSuma += CalcularPrecio(cantidadPropieadades, propiedades)
     offset += 50;
   }
-  return PrecioPromedio;
+    
+  return precioSuma;
+}
+
+function CalcularPrecio(cantidadPropieadades, propiedades){
+  let precioSuma = 0
+  for (let i = 0; i < cantidadPropieadades; i++) {
+    let precio = propiedades[i].price;
+    if (EstaPublicadoEnDolares(propiedades[i].currency_id)) {
+      precioSuma += precio;
+    } else {
+      let conversionDolarPeso = ValorPesoDolar(data)
+      precioSuma += PrecioConvertidoAUSD(precio, conversionDolarPeso)
+    }
+  }
+  return precioSuma
+}
+
+function PrecioConvertidoAUSD(precio, conversionDolarPeso){
+  return precio / conversionDolarPeso
 }
 
 function EstaPublicadoEnDolares(moneda) {
