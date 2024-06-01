@@ -53,8 +53,9 @@ def TakeDataAndCreateGraph(excel):
     apartmentPrice = excel["precioapartamento"].tolist()
     housePriceMonthly = excel["preciocasamensual"].tolist()
     apartmentPriceMonthly = excel["precioapartamentomensual"].tolist()
+    month = excel["mes"].tolist()
 
-    dateMonthly = GetCorrectMonthDataForDate(dates, housePriceMonthly, len(dates))
+    dateMonthly = GetCorrectMonthDataForDate(month, housePriceMonthly, len(dates))
     housePriceMonthly = GetCorrectMonthDataForPrice(housePriceMonthly)
     apartmentPriceMonthly = GetCorrectMonthDataForPrice(apartmentPriceMonthly)
 
